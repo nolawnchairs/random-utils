@@ -1,0 +1,43 @@
+{
+  "name": "@nolawnchairs/random",
+  "version": "1.0.0",
+  "description": "Utilities for creating random strings and numbers",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nolawnchairs/random-utils.git"
+  },
+  "author": "Michael Wieczorek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nolawnchairs/random-utils/issues"
+  },
+  "homepage": "https://github.com/nolawnchairs/random-utils#readme",
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "test",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "testEnvironment": "node"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "@types/node": "^14.17.33",
+    "jest": "^27.3.1",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.4.4"
+  },
+  "scripts": {
+    "define": "dts-bundle-generator -o index.d.ts ./src/index.ts",
+    "test": "jest"
+  }
+}
