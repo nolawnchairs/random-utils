@@ -13,7 +13,7 @@
       "strict": false,
       "noUnusedLocals": false,
       "strictPropertyInitialization": false,
-      "removeComments": false,
+      "removeComments": true,
       "outDir": "lib"
     },
     "include": [
