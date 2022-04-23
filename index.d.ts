@@ -12,28 +12,70 @@ declare class RandomInt {
 	 */
 	nextInt(): number;
 }
-declare class RandomString {
-	private readonly length;
-	private readonly seed;
-	constructor(length: number, seed: string);
+export declare enum Characters {
 	/**
-	 * Generates a new randomized string value
-	 *
-	 * @return {*}  {string}
-	 * @memberof RandomString
+	 * Contains all ASCII characters a to z (lowercase)
 	 */
-	nextString(): string;
+	ALPHA = "abcdefghijklmnopqrstuvwxyz",
+	/**
+	 * Contains all ASCII characters a to z, and 0 to 9 (lowercase)
+	 */
+	ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyz0123456789",
+	/**
+	 * Contains all ASCII characters 0 to 9
+	 */
+	NUMERIC = "1234567890",
+	/**
+	 * Includes all ASCII characters used to repsesent hexadecimal
+	 * values; 0 to 9 and a to f (lowercase). Letters are repeated
+	 * to emulate random bytes
+	 */
+	HEX = "0123456789abcdefabcdef",
+	/**
+	 * Contains all ALPHANUMERIC characters except those that can be confused
+	 * with other letters or numbers, useful for human identification (uppercase)
+	 */
+	LICENCE_PLATE = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789",
+	/**
+	 * Contains all ALPHAN characters except those that can be confused
+	 * with other letters or numbers, useful for human identification (uppercase)
+	 */
+	LICENCE_PLATE_ALPHA = "ABCDEFGHJKLMNPQRSTUVWXYZ",
+	/**
+	 * Contains all NUMERIC characters except those that can be confused
+	 * with other letters or numbers, useful for human identification
+	 */
+	LICENCE_PLATE_NUMERIC = "23456789"
 }
 export declare namespace Random {
 	/**
-	 *
+	 * Generate a random string from a pre-defined set of characters
 	 *
 	 * @export
 	 * @param {number} length the length constraint for each generated string
 	 * @param {string} chars a string containing all characters to include
-	 * @return {*}  {RandomString}
+	 * @param {CaseStragegy} caseStrategy optional case-transform operation to perform
+	 * @return {*}  {IRandomString}
 	 */
-	function fromChars(length: number, chars: string): RandomString;
+	function fromChars(length: number, chars: string, caseStrategy?: CaseStragegy): IRandomString;
+	/**
+	 * Compose a string randomizer using independent string randomizer segments,
+	 * with optional static string values as separators
+	 *
+	 * @export
+	 * @param {(string[] | RandomString[])} components
+	 * @return {*}  {IRandomString}
+	 */
+	function compose(components: (string | IRandomString)[]): IRandomString;
+	/**
+	 * Generate a random string composed of hexadecimal characters
+	 *
+	 * @export
+	 * @param {number} length the length constraint for each generated string
+	 * @param {CaseStragegy} caseStrategy optional case-transform operation to perform
+	 * @return {*}  {IRandomString}
+	 */
+	function hexChars(length: number, caseStrategy?: CaseStragegy): IRandomString;
 	/**
 	 * Generates a random integer value from Number.MIN_SAFE_INTEGER (inclusive)
 	 * to Number.MAX_SAFE_INTEGER (inclusive)
@@ -108,6 +150,17 @@ export declare namespace Random {
 	 * @return {*}  {RandomInt}
 	 */
 	function uint32(): RandomInt;
+}
+/**
+ * Influence the case of resultant string generation
+ * * `upper` - ensure all uppercase characters
+ * * `lower` - ensure all lowercase characters
+ * * `mixed` - randomly apply lowercase or uppercase
+ * @type
+ */
+export declare type CaseStragegy = "upper" | "lower" | "mixed";
+export interface IRandomString {
+	nextString(): string;
 }
 
 export as namespace MyModuleName;

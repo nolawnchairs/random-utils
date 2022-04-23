@@ -38,7 +38,8 @@
   },
   "scripts": {
     "test": "jest",
+    "prebuild": "rm -rf lib",
     "define": "dts-bundle-generator --config ./dts-config.json",
-    "build": "tsc && npm run define"
+    "build": "npm run prebuild && tsc && npm run define"
   }
 }
