@@ -57,9 +57,9 @@ export namespace Random {
    * @param {number} length the length constraint for each generated string
    * @param {string} chars a string containing all characters to include
    * @param {CaseStragegy} caseStrategy optional case-transform operation to perform
-   * @return {*}  {IRandomString}
+   * @return {*}  {RandomString}
    */
-  export function fromChars(length: number, chars: string, caseStrategy?: CaseStragegy): IRandomString {
+  export function fromChars(length: number, chars: string, caseStrategy?: CaseStragegy): RandomString {
     return new RandomString(length, chars, caseStrategy)
   }
 
@@ -69,9 +69,9 @@ export namespace Random {
    *
    * @export
    * @param {(string[] | RandomString[])} components
-   * @return {*}  {IRandomString}
+   * @return {*}  {RandomStringComposition}
    */
-  export function compose(components: (string | IRandomString)[]): IRandomString {
+  export function compose(components: (string | IRandomString)[]): RandomStringComposition {
     return new RandomStringComposition(components)
   }
 
@@ -81,9 +81,9 @@ export namespace Random {
    * @export
    * @param {number} length the length constraint for each generated string
    * @param {CaseStragegy} caseStrategy optional case-transform operation to perform
-   * @return {*}  {IRandomString}
+   * @return {*}  {RandomString}
    */
-  export function hexChars(length: number, caseStrategy?: CaseStragegy): IRandomString {
+  export function hexChars(length: number, caseStrategy?: CaseStragegy): RandomString {
     return new RandomString(length, Characters.HEX, caseStrategy)
   }
 
@@ -190,7 +190,7 @@ export namespace Random {
   }
 }
 
-class RandomStringComposition implements IRandomString {
+export class RandomStringComposition implements IRandomString {
   constructor(
     private readonly components: (string | IRandomString)[]) { }
 
@@ -209,7 +209,7 @@ class RandomStringComposition implements IRandomString {
   }
 }
 
-class RandomString implements IRandomString {
+export class RandomString implements IRandomString {
   constructor(
     private readonly length: number,
     private readonly seed: string,
@@ -252,7 +252,7 @@ class RandomString implements IRandomString {
   }
 }
 
-class RandomInt {
+export class RandomInt {
   constructor(
     private readonly min: number,
     private readonly max: number) { }
