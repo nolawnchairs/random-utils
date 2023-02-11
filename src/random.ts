@@ -84,7 +84,7 @@ export namespace Random {
    * @return {*}  {RandomString}
    */
   export function hexChars(length: number, caseStrategy?: CaseStragegy): RandomString {
-    return new RandomString(length, Characters.HEX, caseStrategy)
+    return new RandomHexString(length, caseStrategy)
   }
 
   /**
@@ -211,9 +211,9 @@ export class RandomStringComposition implements IRandomString {
 
 export class RandomString implements IRandomString {
   constructor(
-    private readonly length: number,
-    private readonly seed: string,
-    private readonly caseStragegy: CaseStragegy) { }
+    protected readonly length: number,
+    protected readonly seed: string,
+    protected readonly caseStrategy: CaseStragegy) { }
 
   /**
    * Generates a new randomized string value
@@ -236,7 +236,7 @@ export class RandomString implements IRandomString {
    */
   private nextChar(): string {
     const value = this.seed[Math.floor(Math.random() * this.seed.length)]
-    switch (this.caseStragegy) {
+    switch (this.caseStrategy) {
       case 'upper':
         return value.toUpperCase()
       case 'lower':
@@ -251,6 +251,27 @@ export class RandomString implements IRandomString {
     }
   }
 }
+
+export class RandomHexString extends RandomString {
+  constructor(
+    length: number,
+    caseStrategy?: CaseStragegy) {
+    super(length, '<not used>', caseStrategy)
+  }
+
+  nextString(): string {
+    const chars: string[] = []
+    const seeder = Random.uint8()
+    while (chars.length < this.length) {
+      seeder.nextInt().toString(16).padStart(2, '0').split('')
+        .forEach(char => chars.push(char))
+    }
+    return this.caseStrategy == 'upper'
+      ? chars.join('').toUpperCase()
+      : chars.join('').toLowerCase()
+  }
+}
+
 
 export class RandomInt {
   constructor(
